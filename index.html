@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cronograma</title>
+    <title>Cronograma de Aplicação</title>
+    
     <link rel="icon" type="image/png" href="seringa.png"> 
+    
     <style>
         /* Base e Layout Padrão (PC/Desktop) */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* MUDANÇA: Usando a fonte nativa do sistema para um visual mais clean */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
             padding: 50px 30px; 
-            color: #f8f9fa; /* Cor do texto principal CLARA */
+            color: #f8f9fa; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,7 +25,7 @@
             background-color: transparent; 
         }
 
-        /* --- BACKGROUND DE IMAGEM ESTÁTICA --- */
+        /* --- BACKGROUND DE IMAGEM ESTÁTICA (MANTIDO) --- */
         .animated-background {
             position: fixed;
             top: 0;
@@ -31,19 +34,14 @@
             height: 100%;
             z-index: -1;
             
-            /* 1. Mude 'sua-imagem.jpg' para o nome (ou URL) da sua imagem */
             background-image: url('fundo1.jpg'); 
             
-            /* 2. Propriedades para cobrir a tela sem repetição */
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             
-            /* 3. Camada escura extra (opcional) para manter o texto CLARO */
             background-color: rgba(0, 0, 0, 0.4); 
-            background-blend-mode: darken; /* Mistura a cor preta com a imagem */
-            
-            /* Removido o código de animação */
+            background-blend-mode: darken; 
         }
         /* --- FIM DO BACKGROUND --- */
 
@@ -60,31 +58,36 @@
         /* --- FIM DO EFEITO DE ANIMAÇÃO --- */
 
         h1 {
-            color: #f8f9fa; /* Título CLARO */
+            color: #f8f9fa; 
             margin-bottom: 35px;
-            font-size: 2.5em; 
+            font-size: 2.8em; /* Levemente maior */
             font-weight: 700;
-            letter-spacing: 0.8px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); 
+            letter-spacing: 1px;
+            /* MUDANÇA: Sombra suave para efeito de brilho/glow */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05); 
         }
 
-        /* Container da Tabela (FUNDO ESCURO) */
+        /* Container da Tabela (MUDANÇA: Glassmorphism Aprimorado) */
         .table-container {
             width: 90%;
-            max-width: 1100px; 
+            max-width: 1200px; 
             overflow-x: auto;
-            /* Fundo da tabela: cinza escuro translúcido */
-            background-color: rgba(30, 40, 50, 0.95); 
+            /* Fundo mais transparente e escuro para contraste */
+            background-color: rgba(30, 40, 50, 0.7); 
             border-radius: 20px; 
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+            /* Sombra para efeito flutuante */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(8px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda mais sutil */
+            /* MUDANÇA: Desfoque mais intenso para o efeito de vidro */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            /* Borda de vidro sutil */
+            border: 1px solid rgba(255, 255, 255, 0.18); 
         }
         
         .table-container:hover {
-            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.6);
-            transform: translateY(-2px); 
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            transform: translateY(-4px); 
         }
 
         /* Estilo da Tabela */
@@ -97,15 +100,16 @@
         th, td {
             padding: 20px 18px; 
             text-align: center;
-            /* Linha divisória clara */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            /* Linha divisória mais sutil */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
             font-size: 1.05em; 
             transition: background-color 0.2s;
-            color: #f8f9fa; /* Texto da célula CLARO */
+            color: #f8f9fa; 
         }
 
         th {
-            background-color: #2c3e50; /* Fundo do cabeçalho */
+            /* MUDANÇA: Degradê sutil no cabeçalho (Neumorfismo Leve) */
+            background: linear-gradient(180deg, #2c3e50, #1f2a3a); 
             color: white;
             text-transform: uppercase;
             font-weight: 600;
@@ -114,27 +118,25 @@
             top: 0;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
+            /* Sombra interna para profundidade */
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
         }
         
         tr:not(:first-child):hover {
-            background-color: rgba(255, 255, 255, 0.05); /* Hover sutil e escuro */
+            background-color: rgba(255, 255, 255, 0.08); /* Hover mais visível */
         }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* LINHA DE EXAME EXTRA: Verde Claro sobre Fundo Escuro */
+        
+        /* LINHA DE EXAME EXTRA */
         .exame-row {
-            /* Cor mais saturada para aparecer bem sobre o fundo escuro */
             background-color: rgba(144, 238, 144, 0.2); 
             font-weight: bold;
         }
         .exame-row:hover {
-            background-color: rgba(144, 238, 144, 0.3) !important;
+            background-color: rgba(144, 238, 144, 0.35) !important;
         }
 
-        /* Estilo da Célula de Status */
+        /* Estilo da Célula de Status (Botões) */
         .status-cell {
             cursor: pointer;
             font-weight: 700;
@@ -144,45 +146,51 @@
             border-radius: 30px;
             display: inline-block;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            /* Borda sutil nos botões de status */
+            border: 1px solid transparent; 
+        }
+        .status-cell:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
         }
         
         /* Estilo da Célula de Exame */
         .exame-cell {
             font-weight: 500;
-            color: #ced4da; /* Cor clara para o texto da célula de exame */
+            color: #ced4da; 
         }
 
-        /* Cores e Sombras dos Status (Mantidas para Forte Contraste) */
-        .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+        /* Cores dos Status */
+        .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); border-color: #38c158; }
         .aplicado:hover { background-color: #218838; box-shadow: 0 6px 10px rgba(40, 167, 69, 0.6); }
-        .nao-aplicado { background-color: #dc3545; color: white; box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); }
+        .nao-aplicado { background-color: #dc3545; color: white; box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); border-color: #e35a68; }
         .nao-aplicado:hover { background-color: #c82333; box-shadow: 0 6px 10px rgba(220, 53, 69, 0.6); }
         
         .hint {
             margin-top: 40px;
             font-style: italic;
-            color: #ced4da; /* Dica CLARA */
+            color: #ced4da; 
             font-size: 1em;
             text-align: center;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
         /* OTIMIZAÇÃO PARA MOBILE (Ajustado para o modo escuro) */
         @media (max-width: 600px) {
-            body { padding: 10px; color: #f8f9fa; } /* Texto claro no mobile */
-            h1 { font-size: 1.5em; margin-bottom: 15px; text-shadow: none; color: #f8f9fa; } 
+            body { padding: 10px; color: #f8f9fa; } 
+            h1 { font-size: 1.8em; margin-bottom: 15px; text-shadow: none; color: #f8f9fa; } 
             th, td { padding: 10px 5px; font-size: 0.8em; color: #f8f9fa; }
             .status-cell { padding: 6px 10px; font-size: 0.75em; }
             .table-container { 
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-                background-color: #1e2832; /* Fundo sólido escuro no mobile */
+                background-color: #1e2832; 
                 backdrop-filter: none; 
                 border-radius: 10px;
                 border: none; 
             }
             th { border-radius: 10px 10px 0 0; }
             .table-container:hover { transform: none; }
-            tr:not(:first-child):hover { background-color: #2c3e50; } /* Hover escuro no mobile */
+            tr:not(:first-child):hover { background-color: #2c3e50; } 
             .hint { color: #ced4da; text-shadow: none;}
         }
     </style>
@@ -216,14 +224,11 @@
     </p>
 
     <script>
-        // CÓDIGO JAVASCRIPT DE SALVAMENTO
+        // CÓDIGO JAVASCRIPT (INALTERADO)
         const STORAGE_KEY = 'cronograma_aplicacao_status';
-
-        // Constantes para os rótulos de status
         const STATUS_APL = { ON: 'Aplicado', OFF: 'Não aplicado' };
         const STATUS_EXA = { ON: 'Feito', OFF: 'Não feito' };
 
-        // ESTRUTURA DE DADOS (Inclui a linha EXAME em 24/10)
         const cronogramaData = [
             { apl: 1, data: "06/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 2, data: "09/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
@@ -231,7 +236,6 @@
             { apl: 4, data: "16/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 5, data: "20/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 6, data: "23/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
-            // LINHA DO EXAME (Status exclusivo "Feito"/"Não feito")
             { apl: "EXAME", data: "24/10/2025", dia: "Sexta-feira", dose: "N/A", ml: "N/A", exame: "REALIZAR", status: STATUS_EXA.OFF },
             { apl: 7, data: "27/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 8, data: "30/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
@@ -247,12 +251,9 @@
             { apl: 18, data: "04/12/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }
         ];
 
-        // Função auxiliar para determinar qual conjunto de rótulos usar
         function getLabels(item) {
             return item.apl === "EXAME" ? STATUS_EXA : STATUS_APL;
         }
-
-        // --- Funções de Salvar e Carregar ---
 
         function loadSavedStatus() {
             try {
@@ -286,8 +287,6 @@
                 console.error("Erro ao salvar localStorage:", e);
             }
         }
-
-        // --- Renderização e Lógica do Status ---
 
         const tbody = document.getElementById('cronograma-body');
 
@@ -329,7 +328,6 @@
         }
 
         function updateStatusClass(cell, status) {
-            // A cor é definida pela classe CSS 'aplicado' ou 'nao-aplicado'
             const isPositiveStatus = (status === STATUS_APL.ON) || (status === STATUS_EXA.ON);
 
             cell.classList.toggle('aplicado', isPositiveStatus);
@@ -342,7 +340,6 @@
             
             const labels = getLabels(item);
             
-            // Alterna entre o rótulo LIGADO e DESLIGADO, mantendo a terminologia correta
             if (item.status === labels.OFF) {
                 item.status = labels.ON;
             } else {
