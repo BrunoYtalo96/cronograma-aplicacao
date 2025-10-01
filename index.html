@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronograma de Aplicação</title>
+    <link rel="icon" type="image/png" href="syringe.png"> 
     <style>
         /* Base e Layout Padrão (PC/Desktop) */
         body {
@@ -219,12 +220,14 @@
     </p>
 
     <script>
-        // CÓDIGO JAVASCRIPT DE SALVAMENTO (Inalterado)
+        // CÓDIGO JAVASCRIPT DE SALVAMENTO
         const STORAGE_KEY = 'cronograma_aplicacao_status';
 
+        // Constantes para os rótulos de status
         const STATUS_APL = { ON: 'Aplicado', OFF: 'Não aplicado' };
         const STATUS_EXA = { ON: 'Feito', OFF: 'Não feito' };
 
+        // ESTRUTURA DE DADOS (Inclui a linha EXAME em 24/10)
         const cronogramaData = [
             { apl: 1, data: "06/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 2, data: "09/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
@@ -232,6 +235,7 @@
             { apl: 4, data: "16/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 5, data: "20/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 6, data: "23/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            // LINHA DO EXAME (Status exclusivo "Feito"/"Não feito")
             { apl: "EXAME", data: "24/10/2025", dia: "Sexta-feira", dose: "N/A", ml: "N/A", exame: "REALIZAR", status: STATUS_EXA.OFF },
             { apl: 7, data: "27/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
             { apl: 8, data: "30/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
@@ -247,9 +251,12 @@
             { apl: 18, data: "04/12/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }
         ];
 
+        // Função auxiliar para determinar qual conjunto de rótulos usar
         function getLabels(item) {
             return item.apl === "EXAME" ? STATUS_EXA : STATUS_APL;
         }
+
+        // --- Funções de Salvar e Carregar ---
 
         function loadSavedStatus() {
             try {
@@ -283,6 +290,8 @@
                 console.error("Erro ao salvar localStorage:", e);
             }
         }
+
+        // --- Renderização e Lógica do Status ---
 
         const tbody = document.getElementById('cronograma-body');
 
@@ -324,6 +333,7 @@
         }
 
         function updateStatusClass(cell, status) {
+            // A cor é definida pela classe CSS 'aplicado' ou 'nao-aplicado'
             const isPositiveStatus = (status === STATUS_APL.ON) || (status === STATUS_EXA.ON);
 
             cell.classList.toggle('aplicado', isPositiveStatus);
@@ -336,6 +346,7 @@
             
             const labels = getLabels(item);
             
+            // Alterna entre o rótulo LIGADO e DESLIGADO, mantendo a terminologia correta
             if (item.status === labels.OFF) {
                 item.status = labels.ON;
             } else {
