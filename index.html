@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Aplicação</title>
+    <style>
+        /* Base e Layout Padrão (PC/Desktop) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 50px 30px; 
+            color: #f8f9fa; /* Cor do texto principal CLARA */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            overflow-x: hidden;
+            background-color: transparent; 
+        }
+
+        /* --- BACKGROUND INTERATIVO (GRADIENTE ESCURO ANIMADO) --- */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            
+            /* Mantém o gradiente escuro */
+            background: linear-gradient(-45deg, #1a2a47, #333a54, #4a4e69, #62657d);
+            background-size: 400% 400%;
+            
+            animation: gradient-shift 18s ease infinite; 
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* --- FIM DO BACKGROUND INTERATIVO --- */
+
+        /* --- EFEITO DE ANIMAÇÃO DO STATUS --- */
+        @keyframes status-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4); }
+            100% { transform: scale(1); box-shadow: none; }
+        }
+
+        .status-pulse-active {
+            animation: status-pulse 0.4s ease-out; 
+        }
+        /* --- FIM DO EFEITO DE ANIMAÇÃO --- */
+
+        h1 {
+            color: #f8f9fa; /* Título CLARO */
+            margin-bottom: 35px;
+            font-size: 2.5em; 
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); 
+        }
+
+        /* Container da Tabela (FUNDO ESCURO) */
+        .table-container {
+            width: 90%;
+            max-width: 1100px; 
+            overflow-x: auto;
+            /* Fundo da tabela: cinza escuro translúcido */
+            background-color: rgba(30, 40, 50, 0.95); 
+            border-radius: 20px; 
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(8px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda mais sutil */
+        }
+        
+        .table-container:hover {
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.6);
+            transform: translateY(-2px); 
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            min-width: 900px; 
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 20px 18px; 
+            text-align: center;
+            /* Linha divisória clara */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            font-size: 1.05em; 
+            transition: background-color 0.2s;
+            color: #f8f9fa; /* Texto da célula CLARO */
+        }
+
+        th {
+            background-color: #2c3e50; /* Fundo do cabeçalho */
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        
+        tr:not(:first-child):hover {
+            background-color: rgba(255, 255, 255, 0.05); /* Hover sutil e escuro */
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* LINHA DE EXAME EXTRA: Verde Claro sobre Fundo Escuro */
+        .exame-row {
+            /* Cor mais saturada para aparecer bem sobre o fundo escuro */
+            background-color: rgba(144, 238, 144, 0.2); 
+            font-weight: bold;
+        }
+        .exame-row:hover {
+            background-color: rgba(144, 238, 144, 0.3) !important;
+        }
+
+        /* Estilo da Célula de Status */
+        .status-cell {
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            user-select: none;
+            padding: 10px 20px; 
+            border-radius: 30px;
+            display: inline-block;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Estilo da Célula de Exame */
+        .exame-cell {
+            font-weight: 500;
+            color: #ced4da; /* Cor clara para o texto da célula de exame */
+        }
+
+        /* Cores e Sombras dos Status (Mantidas para Forte Contraste) */
+        .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+        .aplicado:hover { background-color: #218838; box-shadow: 0 6px 10px rgba(40, 167, 69, 0.6); }
+        .nao-aplicado { background-color: #dc3545; color: white; box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); }
+        .nao-aplicado:hover { background-color: #c82333; box-shadow: 0 6px 10px rgba(220, 53, 69, 0.6); }
+        
+        .hint {
+            margin-top: 40px;
+            font-style: italic;
+            color: #ced4da; /* Dica CLARA */
+            font-size: 1em;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+        }
+
+        /* OTIMIZAÇÃO PARA MOBILE (Ajustado para o modo escuro) */
+        @media (max-width: 600px) {
+            body { padding: 10px; color: #f8f9fa; } /* Texto claro no mobile */
+            h1 { font-size: 1.5em; margin-bottom: 15px; text-shadow: none; color: #f8f9fa; } 
+            th, td { padding: 10px 5px; font-size: 0.8em; color: #f8f9fa; }
+            .status-cell { padding: 6px 10px; font-size: 0.75em; }
+            .table-container { 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+                background-color: #1e2832; /* Fundo sólido escuro no mobile */
+                backdrop-filter: none; 
+                border-radius: 10px;
+                border: none; 
+            }
+            th { border-radius: 10px 10px 0 0; }
+            .table-container:hover { transform: none; }
+            tr:not(:first-child):hover { background-color: #2c3e50; } /* Hover escuro no mobile */
+            .hint { color: #ced4da; text-shadow: none;}
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="animated-background"></div>
+
+    <h1>Cronograma de Aplicação (9 Semanas)</h1>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aplicação</th>
+                    <th>Data</th>
+                    <th>Dia da Semana</th>
+                    <th>Dose (mg)</th>
+                    <th>ml</th>
+                    <th>Exame</th> 
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="cronograma-body">
+                </tbody>
+        </table>
+    </div>
+
+    <p class="hint">
+        * Clique na célula de **Status** para alternar (Aplicado/Não aplicado ou Feito/Não feito), e salve a alteração localmente no seu dispositivo.
+    </p>
+
+    <script>
+        // CÓDIGO JAVASCRIPT DE SALVAMENTO (Inalterado)
+        const STORAGE_KEY = 'cronograma_aplicacao_status';
+
+        const STATUS_APL = { ON: 'Aplicado', OFF: 'Não aplicado' };
+        const STATUS_EXA = { ON: 'Feito', OFF: 'Não feito' };
+
+        const cronogramaData = [
+            { apl: 1, data: "06/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 2, data: "09/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 3, data: "13/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 4, data: "16/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 5, data: "20/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 6, data: "23/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: "EXAME", data: "24/10/2025", dia: "Sexta-feira", dose: "N/A", ml: "N/A", exame: "REALIZAR", status: STATUS_EXA.OFF },
+            { apl: 7, data: "27/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 8, data: "30/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 9, data: "03/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 10, data: "06/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 11, data: "10/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 12, data: "13/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 13, data: "17/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 14, data: "20/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 15, data: "24/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 16, data: "27/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 17, data: "01/12/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF },
+            { apl: 18, data: "04/12/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }
+        ];
+
+        function getLabels(item) {
+            return item.apl === "EXAME" ? STATUS_EXA : STATUS_APL;
+        }
+
+        function loadSavedStatus() {
+            try {
+                const savedData = localStorage.getItem(STORAGE_KEY);
+                if (savedData) {
+                    const statusMap = JSON.parse(savedData);
+                    cronogramaData.forEach(item => {
+                        const saved = statusMap[item.apl];
+                        if (saved) {
+                            item.status = saved.status || item.status;
+                            item.exame = saved.exame || item.exame; 
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error("Erro ao carregar localStorage:", e);
+            }
+        }
+
+        function saveStatus() {
+            try {
+                const statusMap = {};
+                cronogramaData.forEach(item => {
+                    statusMap[item.apl] = {
+                        status: item.status,
+                        exame: item.exame 
+                    };
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(statusMap));
+            } catch (e) {
+                console.error("Erro ao salvar localStorage:", e);
+            }
+        }
+
+        const tbody = document.getElementById('cronograma-body');
+
+        function renderTable() {
+            loadSavedStatus();
+            tbody.innerHTML = '';
+            
+            cronogramaData.forEach(item => {
+                const row = tbody.insertRow();
+                
+                if (item.apl === "EXAME") {
+                    row.classList.add('exame-row');
+                }
+                
+                row.insertCell().textContent = item.apl;
+                row.insertCell().textContent = item.data;
+                row.insertCell().textContent = item.dia;
+                row.insertCell().textContent = item.dose;
+                row.insertCell().textContent = item.ml;
+                
+                const exameCell = row.insertCell();
+                exameCell.textContent = item.exame;
+                exameCell.classList.add('exame-cell');
+
+                const statusCellContainer = row.insertCell();
+                const statusCell = document.createElement('div');
+                
+                statusCell.textContent = item.status;
+                statusCell.classList.add('status-cell');
+                
+                updateStatusClass(statusCell, item.status);
+
+                statusCell.onclick = () => {
+                    toggleStatus(item, statusCell);
+                };
+                
+                statusCellContainer.appendChild(statusCell);
+            });
+        }
+
+        function updateStatusClass(cell, status) {
+            const isPositiveStatus = (status === STATUS_APL.ON) || (status === STATUS_EXA.ON);
+
+            cell.classList.toggle('aplicado', isPositiveStatus);
+            cell.classList.toggle('nao-aplicado', !isPositiveStatus);
+        }
+
+        function toggleStatus(item, cell) {
+            cell.classList.remove('status-pulse-active'); 
+            void cell.offsetWidth; 
+            
+            const labels = getLabels(item);
+            
+            if (item.status === labels.OFF) {
+                item.status = labels.ON;
+            } else {
+                item.status = labels.OFF;
+            }
+            
+            cell.textContent = item.status;
+            updateStatusClass(cell, item.status);
+            
+            cell.classList.add('status-pulse-active'); 
+            
+            saveStatus(); 
+        }
+
+        renderTable();
+    </script>
+
+</body>
+</html>
