@@ -53,38 +53,13 @@
             animation: status-pulse 0.4s ease-out; 
         }
         
-        /* --- ESTILO DO WIDGET DE CONTAGEM REGRESSIVA (NOVO) --- */
-        .countdown-widget {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            padding: 15px 30px;
-            margin-bottom: 30px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #f8f9fa;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
-        }
-
-        .countdown-pulse-active {
-            animation: warning-pulse 1.5s infinite alternate;
-        }
-        
-        @keyframes warning-pulse {
-            0% { box-shadow: 0 0 10px #ffeb3b, 0 0 0 0 rgba(255, 235, 59, 0.4); }
-            100% { box-shadow: 0 0 20px #ffeb3b, 0 0 10px 5px rgba(255, 235, 59, 0); }
-        }
-
         /* ---------------------------------- */
         /* --- CABEÇALHO PRINCIPAL MODERNO --- */
         /* ---------------------------------- */
         .modern-header {
             font-family: 'Oswald', sans-serif;
             color: #f8f9fa; 
-            margin-bottom: 20px; /* Reduzido para dar espaço ao widget */
+            margin-bottom: 35px; /* Valor original restaurado */
             font-size: 3.5em; 
             font-weight: 700;
             letter-spacing: 4px; 
@@ -134,27 +109,133 @@
             transform: translateY(-4px); 
         }
 
-        /* Estilo da Tabela (mantido) */
-        table { /* ... */ } 
-        th, td { /* ... */ } 
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            min-width: 900px; 
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 20px 18px; 
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+            font-size: 1.05em; 
+            transition: background-color 0.2s;
+            color: #f8f9fa; 
+        }
+
+        td {
+            font-weight: 500;
+        }
 
         /* TÍTULOS DA TABELA (th) */
-        th { /* ... */ } 
+        th {
+            font-family: 'Oswald', sans-serif; 
+            background: linear-gradient(180deg, #2c3e50, #1f2a3a); 
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px; 
+            position: sticky;
+            top: 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+            text-shadow: 
+                0 0 5px rgba(173, 216, 230, 0.6), 
+                0 0 10px rgba(173, 216, 230, 0.8);
+            transition: text-shadow 0.3s ease;
+        }
+
+        th:hover {
+            text-shadow: 
+                0 0 8px rgba(173, 216, 230, 0.8),
+                0 0 15px rgba(173, 216, 230, 1);
+        }
         
-        /* LINHA DE EXAME EXTRA (mantido) */
-        .exame-row { /* ... */ }
+        tr:not(:first-child):hover {
+            background-color: rgba(255, 255, 255, 0.08); 
+        }
+        
+        /* LINHA DE EXAME EXTRA */
+        .exame-row {
+            background-color: rgba(144, 238, 144, 0.2); 
+            font-weight: bold;
+        }
+        .exame-row:hover {
+            background-color: rgba(144, 238, 144, 0.35) !important;
+        }
 
         /* Estilo da Célula de Status (Botões) */
-        .status-cell { /* ... */ }
+        .status-cell {
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            user-select: none;
+            padding: 10px 20px; 
+            border-radius: 30px;
+            display: inline-block;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent; 
+        }
+        .status-cell:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
         
-        /* Cores dos Status (mantido) */
+        /* Estilo da Célula de Exame */
+        .exame-cell {
+            font-weight: 500;
+            color: #ced4da; 
+        }
+
+        /* Cores dos Status */
         .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); border-color: #38c158; }
         .aplicado:hover { background-color: #218838; box-shadow: 0 6px 10px rgba(40, 167, 69, 0.6); }
         .nao-aplicado { background-color: #dc3545; color: white; box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); border-color: #e35a68; }
         .nao-aplicado:hover { background-color: #c82333; box-shadow: 0 6px 10px rgba(220, 53, 69, 0.6); }
         
-        /* OTIMIZAÇÃO PARA MOBILE (mantido) */
-        @media (max-width: 600px) { /* ... */ }
+        .hint {
+            margin-top: 40px;
+            font-style: italic;
+            color: #ced4da; 
+            font-size: 1em;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* OTIMIZAÇÃO PARA MOBILE */
+        @media (max-width: 600px) {
+            body { padding: 10px; color: #f8f9fa; } 
+            
+            .modern-header { 
+                font-size: 2em; 
+                letter-spacing: 2px; 
+                margin-bottom: 15px;
+                text-shadow: none;
+            }
+            .modern-header .subtitle { 
+                font-size: 0.5em; 
+                letter-spacing: 1px;
+            }
+
+            th, td { padding: 10px 5px; font-size: 0.8em; color: #f8f9fa; }
+            th { text-shadow: none; letter-spacing: 1px; border-radius: 10px 10px 0 0;} 
+
+            .status-cell { padding: 6px 10px; font-size: 0.75em; }
+            .table-container { 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+                background-color: #1e2832; 
+                backdrop-filter: none; 
+                border-radius: 10px;
+                border: none; 
+            }
+            .table-container:hover { transform: none; }
+            tr:not(:first-child):hover { background-color: #2c3e50; } 
+            .hint { color: #ced4da; text-shadow: none;}
+        }
     </style>
 </head>
 <body>
@@ -166,10 +247,6 @@
         <span class="subtitle">(9 Semanas) | Primeiro Ciclo</span>
     </h1>
     
-    <div class="countdown-widget" id="countdown-widget">
-        Carregando próxima aplicação...
-    </div>
-
     <div class="table-container">
         <table>
             <thead>
@@ -292,85 +369,6 @@
             }
         }
 
-        // -----------------------------------------------------
-        // LÓGICA DA CONTAGEM REGRESSIVA (NOVO)
-        // -----------------------------------------------------
-        
-        function parseDate(dateStr) {
-            // Converte DD/MM/YYYY para objeto Date, ajustando o mês (base 0) e hora (meia-noite)
-            const [day, month, year] = dateStr.split('/');
-            // Definir o tempo para 00:00:00 para garantir que a contagem comece no início do dia
-            return new Date(year, month - 1, day, 0, 0, 0); 
-        }
-
-        function getClosestFutureEvent() {
-            const now = new Date().getTime();
-
-            for (const item of updatedCronogramaData) {
-                // Checa se o status é '❌ Não aplicado' ou '❌ Não feito'
-                if (item.status.startsWith('❌')) {
-                    const eventDate = parseDate(item.data).getTime();
-
-                    // Verifica se a data do evento ainda não passou
-                    if (eventDate >= now - (1000 * 60 * 60 * 24)) { // Dá uma margem de 24h para eventos de hoje
-                        const title = item.apl === "EXAME" ? "Próximo Exame" : `Aplicação da Semana ${item.apl}`;
-                        return { date: eventDate, title: title };
-                    }
-                }
-            }
-            return null; // Ciclo concluído
-        }
-
-        function updateCountdown() {
-            const nextEvent = getClosestFutureEvent();
-            const countdownElement = document.getElementById('countdown-widget');
-
-            if (!countdownElement) return;
-
-            // Limpa a classe de pulsação
-            countdownElement.classList.remove('countdown-pulse-active');
-
-            if (!nextEvent) {
-                countdownElement.innerHTML = `<span style="color: #28a745; font-weight: 700;">✅ Ciclo Concluído!</span>`;
-                return;
-            }
-
-            const now = new Date().getTime();
-            const distance = nextEvent.date - now;
-
-            if (distance < 0) {
-                countdownElement.innerHTML = `<span style="color: #dc3545; font-weight: 700;">🚨 Atrasado: ${nextEvent.title}</span>`;
-                return;
-            }
-
-            // Cálculos para dias, horas, minutos e segundos
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Formato de saída simples e fixo
-            let finalCountdown = `${days} dia${days !== 1 ? 's'}`;
-            finalCountdown += `, ${hours} hora${hours !== 1 ? 's'}`;
-            finalCountdown += `, ${minutes} minuto${minutes !== 1 ? 's'}`;
-
-            // Se for menos de 1 hora, mostra os segundos e ativa o alerta visual
-            const isClose = distance < (1000 * 60 * 60); 
-            if (isClose) {
-                finalCountdown += `, ${seconds} segundo${seconds !== 1 ? 's'}`;
-                countdownElement.classList.add('countdown-pulse-active');
-            }
-
-            countdownElement.innerHTML = `
-                <span style="font-weight: 700;">${nextEvent.title}:</span> 
-                <span style="color: ${isClose ? '#ffeb3b' : '#f8f9fa'}; font-weight: 700;">${finalCountdown}</span>
-            `;
-        }
-        
-        // -----------------------------------------------------
-        // FUNÇÕES DE RENDERIZAÇÃO E EVENTOS (AJUSTADAS)
-        // -----------------------------------------------------
-
         const tbody = document.getElementById('cronograma-body');
 
         function renderTable() {
@@ -384,6 +382,7 @@
                     row.classList.add('exame-row');
                 }
                 
+                // Mapeia o item de dados para criar as células
                 DATA_KEYS.forEach(key => {
                     if (key === 'status') return; 
 
@@ -418,16 +417,10 @@
 
                 statusCell.onclick = () => {
                     toggleStatus(item, statusCell);
-                    // Atualiza o contador imediatamente após a alteração de status
-                    updateCountdown(); 
                 };
                 
                 statusCellContainer.appendChild(statusCell);
             });
-            
-            // Inicia a contagem regressiva após o carregamento da tabela
-            updateCountdown();
-            setInterval(updateCountdown, 1000); 
         }
 
         function updateStatusClass(cell, status) {
