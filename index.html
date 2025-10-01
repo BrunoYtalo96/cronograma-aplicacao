@@ -22,7 +22,7 @@
             background-color: transparent; 
         }
 
-        /* --- BACKGROUND INTERATIVO (GRADIENTE ESCURO ANIMADO) --- */
+        /* --- BACKGROUND DE IMAGEM ESTÁTICA --- */
         .animated-background {
             position: fixed;
             top: 0;
@@ -31,25 +31,21 @@
             height: 100%;
             z-index: -1;
             
-            /* Mantém o gradiente escuro */
-            background: linear-gradient(-45deg, #1a2a47, #333a54, #4a4e69, #62657d);
-            background-size: 400% 400%;
+            /* 1. Mude 'sua-imagem.jpg' para o nome (ou URL) da sua imagem */
+            background-image: url('fundo.jpg'); 
             
-            animation: gradient-shift 18s ease infinite; 
+            /* 2. Propriedades para cobrir a tela sem repetição */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            
+            /* 3. Camada escura extra (opcional) para manter o texto CLARO */
+            background-color: rgba(0, 0, 0, 0.4); 
+            background-blend-mode: darken; /* Mistura a cor preta com a imagem */
+            
+            /* Removido o código de animação */
         }
-
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        /* --- FIM DO BACKGROUND INTERATIVO --- */
+        /* --- FIM DO BACKGROUND --- */
 
         /* --- EFEITO DE ANIMAÇÃO DO STATUS --- */
         @keyframes status-pulse {
