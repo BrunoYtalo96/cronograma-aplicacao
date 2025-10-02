@@ -155,37 +155,53 @@
                 0 0 15px rgba(173, 216, 230, 1);
         }
         
-        /* === ESTILO PADRÃO (LARANJA): Linhas que não foram concluídas === */
-        /* Aplicamos a cor laranja como padrão para todas as linhas de dados */
+        /* === ESTILO PADRÃO (LARANJA SUAVE): Linhas de aplicação não concluídas === */
+        /* Aplicamos a cor laranja suave como padrão para todas as linhas de aplicação pendentes */
         .default-row {
-            background-color: rgba(255, 165, 0, 0.15); /* Laranja Suave (Original do Exame Pendente) */
+            background-color: rgba(255, 165, 0, 0.15); /* Laranja Suave */
+            color: #f8e4cc; /* Tom mais quente para o texto sobre o laranja suave */
         }
         
-        /* HOVER para linhas pendentes */
+        /* HOVER para linhas de aplicação pendentes */
         .default-row:not(.row-aplicada):hover {
             background-color: rgba(255, 165, 0, 0.3) !important;
+        }
+
+        /* --- NOVO: ESTILO PARA LINHA DE EXAME PENDENTE (LARANJA MAIS FORTE) --- */
+        .exame-row-pendente {
+            background-color: rgba(255, 140, 0, 0.35); /* Laranja mais forte */
+            font-weight: bold;
+            color: #fff0d9; /* Cor de texto mais clara para contraste */
+        }
+        .exame-row-pendente:hover {
+            background-color: rgba(255, 140, 0, 0.5) !important;
         }
 
         /* --- ESTILO PARA LINHA CONCLUÍDA (VERDE) --- */
         .row-aplicada {
             background-color: rgba(144, 238, 144, 0.15); /* Verde Claro Suave */
-            font-weight: 600; /* Deixa as letras mais fortes */
-            color: #d1ffdb; /* Cor de texto um pouco mais clara/verdeada */
+            font-weight: 600; 
+            color: #d1ffdb; 
         }
         
         .row-aplicada:hover {
             background-color: rgba(144, 238, 144, 0.3) !important;
         }
 
+        /* Prioridade: Se for um exame e estiver aplicado, o verde deve sobrescrever o laranja forte */
+        .exame-row-pendente.row-aplicada {
+             background-color: rgba(144, 238, 144, 0.3);
+             color: #d1ffdb;
+        }
+        .exame-row-pendente.row-aplicada:hover {
+            background-color: rgba(144, 238, 144, 0.5) !important;
+        }
+
+
         /* Estilo da Célula de Exame */
         .exame-cell {
-            font-weight: 500;
-            color: #ced4da; 
-        }
-        /* Ajuste de cor do texto para células em linhas não aplicadas (para contraste no laranja) */
-        tr:not(.row-aplicada) .exame-cell,
-        tr:not(.row-aplicada) td {
-             color: #f8e4cc; /* Tom mais quente para o texto sobre o laranja */
+            font-weight: 500; /* Pode ser sobrescrito pelo .row-aplicada ou .exame-row-pendente */
+            /* A cor do texto será definida pelas regras de linha acima */
         }
 
         /* Estilo da Célula de Status (Botões) */
@@ -249,14 +265,17 @@
             .table-container:hover { transform: none; }
             
             /* Ajustar cores e hover para mobile */
-            .default-row { background-color: rgba(255, 165, 0, 0.25); }
+            .default-row { background-color: rgba(255, 165, 0, 0.25); color: #fae0c2; }
             .default-row:not(.row-aplicada):hover { background-color: rgba(255, 165, 0, 0.4) !important; }
-            .row-aplicada { background-color: rgba(144, 238, 144, 0.25); }
+            
+            .exame-row-pendente { background-color: rgba(255, 140, 0, 0.45); color: #fff0d9; }
+            .exame-row-pendente:hover { background-color: rgba(255, 140, 0, 0.6) !important; }
+
+            .row-aplicada { background-color: rgba(144, 238, 144, 0.25); color: #d1ffdb; }
             .row-aplicada:hover { background-color: rgba(144, 238, 144, 0.4) !important; }
-            tr:not(.row-aplicada) .exame-cell,
-            tr:not(.row-aplicada) td {
-                 color: #fae0c2; 
-            }
+            
+            .exame-row-pendente.row-aplicada { background-color: rgba(144, 238, 144, 0.4); color: #d1ffdb;}
+            .exame-row-pendente.row-aplicada:hover { background-color: rgba(144, 238, 144, 0.6) !important; }
 
             .hint { color: #ced4da; text-shadow: none;}
         }
@@ -402,12 +421,19 @@
             updatedCronogramaData.forEach(item => {
                 const row = tbody.insertRow();
                 
-                // Aplicamos a classe padrão laranja (default-row) a todas as linhas de dados
-                row.classList.add('default-row');
-                
+                const isExameRow = item.apl === "EXAME";
                 const isPositiveStatus = item.status.startsWith('✅');
 
-                // A classe verde claro 'row-aplicada' é aplicada se o status for positivo
+                // 1. Aplica a classe padrão (laranja suave) para todas as linhas
+                // ou a classe de exame (laranja forte) se for um exame
+                if (isExameRow) {
+                    row.classList.add('exame-row-pendente'); // Laranja mais forte
+                } else {
+                    row.classList.add('default-row'); // Laranja suave
+                }
+                
+                // 2. A classe verde claro 'row-aplicada' é aplicada se o status for positivo
+                // Esta classe irá sobrescrever as cores laranja se presente
                 if (isPositiveStatus) {
                     row.classList.add('row-aplicada');
                 } else {
