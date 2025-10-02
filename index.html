@@ -59,7 +59,7 @@
         .modern-header {
             font-family: 'Oswald', sans-serif;
             color: #f8f9fa; 
-            margin-bottom: 35px; /* Valor original restaurado */
+            margin-bottom: 35px;
             font-size: 3.5em; 
             font-weight: 700;
             letter-spacing: 4px; 
@@ -155,17 +155,37 @@
                 0 0 15px rgba(173, 216, 230, 1);
         }
         
-        tr:not(:first-child):hover {
-            background-color: rgba(255, 255, 255, 0.08); 
+        /* === ESTILO PADRÃO (LARANJA): Linhas que não foram concluídas === */
+        /* Aplicamos a cor laranja como padrão para todas as linhas de dados */
+        .default-row {
+            background-color: rgba(255, 165, 0, 0.15); /* Laranja Suave (Original do Exame Pendente) */
         }
         
-        /* LINHA DE EXAME EXTRA */
-        .exame-row {
-            background-color: rgba(144, 238, 144, 0.2); 
-            font-weight: bold;
+        /* HOVER para linhas pendentes */
+        .default-row:not(.row-aplicada):hover {
+            background-color: rgba(255, 165, 0, 0.3) !important;
         }
-        .exame-row:hover {
-            background-color: rgba(144, 238, 144, 0.35) !important;
+
+        /* --- ESTILO PARA LINHA CONCLUÍDA (VERDE) --- */
+        .row-aplicada {
+            background-color: rgba(144, 238, 144, 0.15); /* Verde Claro Suave */
+            font-weight: 600; /* Deixa as letras mais fortes */
+            color: #d1ffdb; /* Cor de texto um pouco mais clara/verdeada */
+        }
+        
+        .row-aplicada:hover {
+            background-color: rgba(144, 238, 144, 0.3) !important;
+        }
+
+        /* Estilo da Célula de Exame */
+        .exame-cell {
+            font-weight: 500;
+            color: #ced4da; 
+        }
+        /* Ajuste de cor do texto para células em linhas não aplicadas (para contraste no laranja) */
+        tr:not(.row-aplicada) .exame-cell,
+        tr:not(.row-aplicada) td {
+             color: #f8e4cc; /* Tom mais quente para o texto sobre o laranja */
         }
 
         /* Estilo da Célula de Status (Botões) */
@@ -185,12 +205,6 @@
             transform: scale(1.02);
         }
         
-        /* Estilo da Célula de Exame */
-        .exame-cell {
-            font-weight: 500;
-            color: #ced4da; 
-        }
-
         /* Cores dos Status */
         .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); border-color: #38c158; }
         .aplicado:hover { background-color: #218838; box-shadow: 0 6px 10px rgba(40, 167, 69, 0.6); }
@@ -233,7 +247,17 @@
                 border: none; 
             }
             .table-container:hover { transform: none; }
-            tr:not(:first-child):hover { background-color: #2c3e50; } 
+            
+            /* Ajustar cores e hover para mobile */
+            .default-row { background-color: rgba(255, 165, 0, 0.25); }
+            .default-row:not(.row-aplicada):hover { background-color: rgba(255, 165, 0, 0.4) !important; }
+            .row-aplicada { background-color: rgba(144, 238, 144, 0.25); }
+            .row-aplicada:hover { background-color: rgba(144, 238, 144, 0.4) !important; }
+            tr:not(.row-aplicada) .exame-cell,
+            tr:not(.row-aplicada) td {
+                 color: #fae0c2; 
+            }
+
             .hint { color: #ced4da; text-shadow: none;}
         }
     </style>
@@ -378,10 +402,19 @@
             updatedCronogramaData.forEach(item => {
                 const row = tbody.insertRow();
                 
-                if (item.apl === "EXAME") {
-                    row.classList.add('exame-row');
-                }
+                // Aplicamos a classe padrão laranja (default-row) a todas as linhas de dados
+                row.classList.add('default-row');
                 
+                const isPositiveStatus = item.status.startsWith('✅');
+
+                // A classe verde claro 'row-aplicada' é aplicada se o status for positivo
+                if (isPositiveStatus) {
+                    row.classList.add('row-aplicada');
+                } else {
+                    row.classList.remove('row-aplicada');
+                }
+
+
                 // Mapeia o item de dados para criar as células
                 DATA_KEYS.forEach(key => {
                     if (key === 'status') return; 
@@ -416,7 +449,7 @@
                 updateStatusClass(statusCell, item.status);
 
                 statusCell.onclick = () => {
-                    toggleStatus(item, statusCell);
+                    toggleStatus(item, statusCell, row); 
                 };
                 
                 statusCellContainer.appendChild(statusCell);
@@ -430,12 +463,13 @@
             cell.classList.toggle('nao-aplicado', !isPositiveStatus);
         }
 
-        function toggleStatus(item, cell) {
+        function toggleStatus(item, cell, row) {
             cell.classList.remove('status-pulse-active'); 
             void cell.offsetWidth; 
             
             const labels = getLabels(item);
             
+            // Alterna o status
             if (item.status === labels.ON) {
                 item.status = labels.OFF; 
             } else {
@@ -446,6 +480,10 @@
             updateStatusClass(cell, item.status);
             
             cell.classList.add('status-pulse-active'); 
+            
+            // Atualiza a classe da linha baseada no novo status
+            const isPositiveStatus = item.status.startsWith('✅');
+            row.classList.toggle('row-aplicada', isPositiveStatus);
             
             saveStatus(); 
         }
