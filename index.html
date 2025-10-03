@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cronograma</title>
+    <title>Cronograma de Aplicações e Exames</title>
     <link rel="icon" type="image/png" href="seringa.png">
 <style>
     /* Estilos CSS com Background Estático e Tema Dark */
@@ -26,12 +26,11 @@
         color: var(--text-color);
         line-height: 1.6;
         
-        /* NOVO: Background Estático */
-        background-color: #1a1a1a; /* Cor de fallback */
-        background-image: url('fundo1.jpg'); /* Troque pelo link da sua imagem */
-        background-size: cover; /* Garante que a imagem cubra toda a tela */
-        background-attachment: fixed; /* O segredo para o efeito estático */
-        background-position: center; /* Centraliza a imagem */
+        background-color: #1a1a1a;
+        background-image: url('fundo1.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
     }
 
     /* O restante dos estilos de texto, cabeçalho e tabela permanecem os mesmos */
@@ -40,8 +39,16 @@
         text-align: center;
         margin-bottom: 5px;
         font-weight: 600;
-        /* Adiciona sombra para destaque no fundo */
         text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
+    }
+
+    h2 {
+        color: var(--text-color);
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-weight: 500;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); 
     }
 
     p {
@@ -61,8 +68,7 @@
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        /* Reduz a opacidade do fundo da tabela para que o background apareça levemente */
-        background-color: rgba(43, 43, 43, 0.95); 
+        background-color: rgba(43, 43, 43, 0.95);
         color: var(--text-color);
     }
 
@@ -138,103 +144,152 @@
             </tr>
         </thead>
         <tbody>
+            <tr><td>1</td><td>06 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>09 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>2</td><td>13 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>16 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>3</td><td>20 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>23 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>4</td><td>27 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>30 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>5</td><td>03 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>06 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>6</td><td>10 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>13 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>7</td><td>17 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>20 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>8</td><td>24 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>27 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+            <tr><td>9</td><td>01 de Dezembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>04 de Dezembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Acompanhamento de Exames</h2>
+    <table id="examTable">
+        <thead>
             <tr>
-                <td>1</td>
-                <td>06 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>09 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
+                <th>Tipo de exame</th>
+                <th>Data</th>
+                <th>Status</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
-                <td>2</td>
-                <td>13 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>16 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>20 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>23 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>27 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>30 de Outubro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>03 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>06 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>10 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>13 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>17 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>20 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>24 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>27 de Novembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>01 de Dezembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
-                <td>04 de Dezembro de 2025</td>
-                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>Testo Total</td>
+                <td>11 de novembro de 2025</td>
+                <td class="status-cell not-applied">Não Feito</td>
             </tr>
         </tbody>
     </table>
 
-  <script>
-    // Código JavaScript com animação
+<script>
     document.addEventListener('DOMContentLoaded', () => {
-        const table = document.getElementById('scheduleTable');
+        const scheduleTable = document.getElementById('scheduleTable');
+        const examTable = document.getElementById('examTable');
+        const allStatusCells = document.querySelectorAll('.status-cell');
+        
+        // Chaves para o localStorage
+        const STORAGE_KEY_APPLICATIONS = 'cronograma_aplicacoes_status';
+        const STORAGE_KEY_EXAMS = 'cronograma_exames_status';
 
-        table.addEventListener('click', (event) => {
+        /**
+         * 1. SALVAR DADOS
+         * Coleta o status atual de todas as células e salva no localStorage.
+         */
+        const saveStatus = () => {
+            const appStatuses = [];
+            const examStatuses = [];
+
+            // Salva o status das aplicações
+            scheduleTable.querySelectorAll('.status-cell').forEach((cell, index) => {
+                appStatuses.push({
+                    index: index,
+                    isApplied: cell.classList.contains('applied')
+                });
+            });
+
+            // Salva o status dos exames
+            examTable.querySelectorAll('.status-cell').forEach((cell, index) => {
+                examStatuses.push({
+                    index: index,
+                    isApplied: cell.classList.contains('applied')
+                });
+            });
+
+            localStorage.setItem(STORAGE_KEY_APPLICATIONS, JSON.stringify(appStatuses));
+            localStorage.setItem(STORAGE_KEY_EXAMS, JSON.stringify(examStatuses));
+        };
+
+        /**
+         * 2. CARREGAR DADOS
+         * Carrega os status do localStorage e aplica às células na inicialização.
+         */
+        const loadStatus = () => {
+            const loadedApp = JSON.parse(localStorage.getItem(STORAGE_KEY_APPLICATIONS));
+            const loadedExam = JSON.parse(localStorage.getItem(STORAGE_KEY_EXAMS));
+
+            const applyLoadedStatus = (loadedData, tableId) => {
+                const cells = document.getElementById(tableId).querySelectorAll('.status-cell');
+                
+                if (loadedData) {
+                    loadedData.forEach(data => {
+                        const cell = cells[data.index];
+                        if (!cell) return;
+                        
+                        // Determina se é a tabela de exames
+                        const isExamCell = tableId === 'examTable';
+                        
+                        if (data.isApplied) {
+                            cell.classList.remove('not-applied');
+                            cell.classList.add('applied');
+                            cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
+                        } else {
+                            cell.classList.remove('applied');
+                            cell.classList.add('not-applied');
+                            cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
+                        }
+                    });
+                }
+            };
+            
+            applyLoadedStatus(loadedApp, 'scheduleTable');
+            applyLoadedStatus(loadedExam, 'examTable');
+        };
+
+        /**
+         * 3. FUNÇÃO DE TOGGLE (com persistência)
+         * Manipula o clique, a animação E salva o novo status.
+         */
+        const handleStatusToggle = (event) => {
             if (event.target && event.target.classList.contains('status-cell')) {
                 const cell = event.target;
                 
-                // 1. Adiciona a classe de animação (para o efeito "crescer")
+                // Verifica se a célula está na tabela de Exames
+                const isExamCell = cell.closest('#examTable');
+                
                 cell.classList.add('animating');
 
-                // 2. Espera um momento (o suficiente para o CSS fazer o efeito de crescimento)
                 setTimeout(() => {
-                    // 3. Verifica e altera o status (isso desencadeia a transição de cor)
+                    // Alterna o status (mantendo as classes CSS de cor)
                     if (cell.classList.contains('not-applied')) {
                         cell.classList.remove('not-applied');
                         cell.classList.add('applied');
-                        cell.textContent = 'Aplicado';
+                        cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
+                        
                     } else if (cell.classList.contains('applied')) {
                         cell.classList.remove('applied');
                         cell.classList.add('not-applied');
-                        cell.textContent = 'Não Aplicado';
+                        cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
                     }
                     
-                    // 4. Remove a classe de animação para voltar ao tamanho normal
-                    // A transição de 0.2s no CSS garante que a volta seja suave
                     cell.classList.remove('animating');
-                }, 100); // 100 milissegundos é rápido o suficiente
+                    
+                    // NOVO: Chama a função de salvar após a alteração
+                    saveStatus();
+                    
+                }, 100);
             }
+        };
+
+        // 4. Inicialização: Carrega os dados salvos e configura os listeners
+        loadStatus();
+        
+        allStatusCells.forEach(cell => {
+            cell.addEventListener('click', handleStatusToggle);
         });
+
     });
 </script>
 </body>
