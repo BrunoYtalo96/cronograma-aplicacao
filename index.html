@@ -4,518 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronograma</title>
-    
-    <link rel="icon" type="image/png" href="seringa.png"> 
-    
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Base e Layout Padrão (PC/Desktop) */
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 50px 30px; 
-            color: #f8f9fa; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-            overflow-x: hidden;
-            background-color: transparent; 
-        }
-
-        /* --- BACKGROUND DE IMAGEM ESTÁTICA --- */
-        .animated-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: url('fundo1.jpg'); 
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-color: rgba(0, 0, 0, 0.4); 
-            background-blend-mode: darken; 
-        }
-
-        /* --- EFEITO DE ANIMAÇÃO DO STATUS (BOTÕES) --- */
-        @keyframes status-pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4); }
-            100% { transform: scale(1); box-shadow: none; }
-        }
-
-        .status-pulse-active {
-            animation: status-pulse 0.4s ease-out; 
-        }
+<style>
+    /* Estilos CSS com Tema Dark Moderno */
+    :root {
+        --primary-color: #007bff;     /* Azul de destaque mantido */
+        --success-color: #28a745;     /* Verde para Aplicado */
+        --danger-color: #dc3545;      /* Vermelho para Não Aplicado */
         
-        /* ---------------------------------- */
-        /* --- CABEÇALHO PRINCIPAL MODERNO --- */
-        /* ---------------------------------- */
-        .modern-header {
-            font-family: 'Oswald', sans-serif;
-            color: #f8f9fa; 
-            margin-bottom: 35px;
-            font-size: 3.5em; 
-            font-weight: 700;
-            letter-spacing: 4px; 
-            text-align: center;
-            text-transform: uppercase;
-            text-shadow: 
-                0 0 5px rgba(173, 216, 230, 0.5),    
-                0 0 15px rgba(173, 216, 230, 0.8),
-                0 0 30px rgba(255, 255, 255, 0.5); 
-            transition: text-shadow 0.3s ease;
-        }
+        --bg-color: #1a1a1a;          /* Fundo principal escuro (quase preto) */
+        --card-bg: #2b2b2b;           /* Fundo do card/tabela (um pouco mais claro) */
+        --text-color: #f1f1f1;        /* Cor do texto claro */
+        --secondary-text-color: #aaaaaa; /* Cor do texto secundário */
+        --border-color: #444444;      /* Cor da borda/linha divisória */
+    }
 
-        .modern-header:hover {
-            text-shadow: 
-                0 0 8px rgba(173, 216, 230, 0.8),
-                0 0 20px rgba(173, 216, 230, 1),
-                0 0 40px rgba(255, 255, 255, 0.8);
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 30px 15px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
 
-        .modern-header .subtitle {
-            display: block; 
-            font-size: 0.5em; 
-            font-weight: 400; 
-            letter-spacing: 2px;
-            color: #ced4da; 
-            margin-top: 5px;
-            text-shadow: none; 
-            opacity: 0.8;
-        }
+    h1 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
 
-        /* Container da Tabela (Glassmorphism) */
-        .table-container {
-            width: 90%;
-            max-width: 1200px; 
-            overflow-x: auto; 
-            background-color: rgba(30, 40, 50, 0.7); 
-            border-radius: 20px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.18); 
-        }
+    p {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 0.95rem;
+        color: var(--secondary-text-color);
+    }
+
+    table {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        /* Sombra sutil que se destaca no fundo escuro */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    thead th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px 10px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border: none;
+    }
+
+    td {
+        padding: 12px 10px;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    /* Cores alternadas para linhas */
+    tbody tr:nth-child(even) {
+        background-color: #333333; /* Uma tonalidade um pouco mais escura */
+    }
+    
+    tbody tr:hover {
+        background-color: #3a3a3a; /* Destaque ao passar o mouse */
+    }
+
+    /* Estilos de Status */
+    .status-cell {
+        font-weight: 600;
+        cursor: pointer;
+        padding: 8px 10px;
+        border-radius: 6px;
+        user-select: none;
         
-        .table-container:hover {
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-            transform: translateY(-4px); 
-        }
+        /* Transição Suave (mantida) */
+        transition: background-color 0.4s ease, transform 0.2s ease-out;
+        transform: scale(1);
+        color: white; /* Garante que o texto de status seja sempre branco */
+    }
+    
+    /* Efeito de clique (mantido) */
+    .status-cell:active {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
 
-        /* Estilo da Tabela */
+    /* Animação ao mudar de estado (mantida) */
+    .status-cell.animating {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+
+    .applied {
+        background-color: var(--success-color); 
+    }
+
+    .not-applied {
+        background-color: var(--danger-color);
+    }
+    
+    /* Responsividade Básica (mantida) */
+    @media (max-width: 768px) {
         table {
+            border-radius: 0;
             width: 100%;
-            min-width: 900px; 
-            border-collapse: collapse;
+            font-size: 0.9rem;
         }
-
         th, td {
-            padding: 20px 18px; 
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
-            font-size: 1.05em; 
-            transition: background-color 0.2s;
-            color: #f8f9fa; 
+            padding: 8px 5px;
         }
-
-        td {
-            font-weight: 500;
-        }
-
-        /* TÍTULOS DA TABELA (th) */
-        th {
-            font-family: 'Oswald', sans-serif; 
-            background: linear-gradient(180deg, #2c3e50, #1f2a3a); 
-            color: white;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 2px; 
-            position: sticky;
-            top: 0;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
-            text-shadow: 
-                0 0 5px rgba(173, 216, 230, 0.6), 
-                0 0 10px rgba(173, 216, 230, 0.8);
-            transition: text-shadow 0.3s ease;
-        }
-
-        th:hover {
-            text-shadow: 
-                0 0 8px rgba(173, 216, 230, 0.8),
-                0 0 15px rgba(173, 216, 230, 1);
-        }
-        
-        /* === ESTILO PADRÃO (LARANJA SUAVE): Linhas de aplicação não concluídas === */
-        /* Aplicamos a cor laranja suave como padrão para todas as linhas de aplicação pendentes */
-        .default-row {
-            background-color: rgba(255, 165, 0, 0.15); /* Laranja Suave */
-            color: #f8e4cc; /* Tom mais quente para o texto sobre o laranja suave */
-        }
-        
-        /* HOVER para linhas de aplicação pendentes */
-        .default-row:not(.row-aplicada):hover {
-            background-color: rgba(255, 165, 0, 0.3) !important;
-        }
-
-        /* --- NOVO: ESTILO PARA LINHA DE EXAME PENDENTE (LARANJA MAIS FORTE) --- */
-        .exame-row-pendente {
-            background-color: rgba(255, 140, 0, 0.35); /* Laranja mais forte */
-            font-weight: bold;
-            color: #fff0d9; /* Cor de texto mais clara para contraste */
-        }
-        .exame-row-pendente:hover {
-            background-color: rgba(255, 140, 0, 0.5) !important;
-        }
-
-        /* --- ESTILO PARA LINHA CONCLUÍDA (VERDE) --- */
-        .row-aplicada {
-            background-color: rgba(144, 238, 144, 0.15); /* Verde Claro Suave */
-            font-weight: 600; 
-            color: #d1ffdb; 
-        }
-        
-        .row-aplicada:hover {
-            background-color: rgba(144, 238, 144, 0.3) !important;
-        }
-
-        /* Prioridade: Se for um exame e estiver aplicado, o verde deve sobrescrever o laranja forte */
-        .exame-row-pendente.row-aplicada {
-             background-color: rgba(144, 238, 144, 0.3);
-             color: #d1ffdb;
-        }
-        .exame-row-pendente.row-aplicada:hover {
-            background-color: rgba(144, 238, 144, 0.5) !important;
-        }
-
-
-        /* Estilo da Célula de Exame */
-        .exame-cell {
-            font-weight: 500; /* Pode ser sobrescrito pelo .row-aplicada ou .exame-row-pendente */
-            /* A cor do texto será definida pelas regras de linha acima */
-        }
-
-        /* Estilo da Célula de Status (Botões) */
-        .status-cell {
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            user-select: none;
-            padding: 10px 20px; 
-            border-radius: 30px;
-            display: inline-block;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-            border: 1px solid transparent; 
-        }
-        .status-cell:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-        
-        /* Cores dos Status */
-        .aplicado { background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); border-color: #38c158; }
-        .aplicado:hover { background-color: #218838; box-shadow: 0 6px 10px rgba(40, 167, 69, 0.6); }
-        .nao-aplicado { background-color: #dc3545; color: white; box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); border-color: #e35a68; }
-        .nao-aplicado:hover { background-color: #c82333; box-shadow: 0 6px 10px rgba(220, 53, 69, 0.6); }
-        
-        .hint {
-            margin-top: 40px;
-            font-style: italic;
-            color: #ced4da; 
-            font-size: 1em;
-            text-align: center;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-
-        /* OTIMIZAÇÃO PARA MOBILE */
-        @media (max-width: 600px) {
-            body { padding: 10px; color: #f8f9fa; } 
-            
-            .modern-header { 
-                font-size: 2em; 
-                letter-spacing: 2px; 
-                margin-bottom: 15px;
-                text-shadow: none;
-            }
-            .modern-header .subtitle { 
-                font-size: 0.5em; 
-                letter-spacing: 1px;
-            }
-
-            th, td { padding: 10px 5px; font-size: 0.8em; color: #f8f9fa; }
-            th { text-shadow: none; letter-spacing: 1px; border-radius: 10px 10px 0 0;} 
-
-            .status-cell { padding: 6px 10px; font-size: 0.75em; }
-            .table-container { 
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-                background-color: #1e2832; 
-                backdrop-filter: none; 
-                border-radius: 10px;
-                border: none; 
-            }
-            .table-container:hover { transform: none; }
-            
-            /* Ajustar cores e hover para mobile */
-            .default-row { background-color: rgba(255, 165, 0, 0.25); color: #fae0c2; }
-            .default-row:not(.row-aplicada):hover { background-color: rgba(255, 165, 0, 0.4) !important; }
-            
-            .exame-row-pendente { background-color: rgba(255, 140, 0, 0.45); color: #fff0d9; }
-            .exame-row-pendente:hover { background-color: rgba(255, 140, 0, 0.6) !important; }
-
-            .row-aplicada { background-color: rgba(144, 238, 144, 0.25); color: #d1ffdb; }
-            .row-aplicada:hover { background-color: rgba(144, 238, 144, 0.4) !important; }
-            
-            .exame-row-pendente.row-aplicada { background-color: rgba(144, 238, 144, 0.4); color: #d1ffdb;}
-            .exame-row-pendente.row-aplicada:hover { background-color: rgba(144, 238, 144, 0.6) !important; }
-
-            .hint { color: #ced4da; text-shadow: none;}
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    
-    <div class="animated-background"></div>
 
-    <h1 class="modern-header">
-        Cronograma de Aplicação
-        <span class="subtitle">(9 Semanas) | Primeiro Ciclo</span>
-    </h1>
-    
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Semana</th>
-                    <th>Data</th>
-                    <th>Dia da Semana</th>
-                    <th>Dose (mg)</th>
-                    <th>ml</th>
-                    <th>Exame</th> 
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="cronograma-body">
-                </tbody>
-        </table>
-    </div>
+    <h1>Cronograma de Aplicações - 9 Semanas</h1>
+    <p>Clique nas células de status (vermelhas ou verdes) para registrar a aplicação.</p>
 
-    <p class="hint">
-        * Clique no **Status** para alternar o ícone e salvar a alteração localmente no seu dispositivo.
-    </p>
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Semana</th>
+                <th>Segunda-feira (125mg)</th>
+                <th>Status</th>
+                <th>Quinta-feira (125mg)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>06 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>09 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>13 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>16 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>20 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>23 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>27 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>30 de Outubro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>03 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>06 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>10 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>13 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>17 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>20 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>24 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>27 de Novembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>01 de Dezembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+                <td>04 de Dezembro de 2025</td>
+                <td class="status-cell not-applied">Não Aplicado</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <script>
-        const STORAGE_KEY = 'cronograma_aplicacao_status';
-        
-        const STATUS_APL = { ON: '✅ Aplicado', OFF: '❌ Não aplicado' };
-        const STATUS_EXA = { ON: '✅ Feito', OFF: '❌ Não feito' };
-        
-        const DATA_KEYS = [
-            'apl', 'data', 'dia', 'dose', 'ml', 'exame', 'status'
-        ];
+  <script>
+    // Código JavaScript com animação
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.getElementById('scheduleTable');
 
-        // DADOS DO CRONOGRAMA
-        const cronogramaData = [
-            { data: "06/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "09/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "13/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "16/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "20/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "23/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "24/10/2025", dia: "Sexta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "27/10/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "30/10/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "03/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "06/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "10/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            
-            // EXAME em 11/11/2025
-            { data: "11/11/2025", dia: "Terça-feira", dose: "N/A", ml: "N/A", exame: "REALIZAR", isExame: true, status: STATUS_EXA.OFF }, 
-            
-            { data: "13/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "17/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "20/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "24/11/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "27/11/2025", dia: "Quinta-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }, 
-            { data: "01/12/2025", dia: "Segunda-feira", dose: 125, ml: 0.5, exame: "-", status: STATUS_APL.OFF }
-        ];
-
-        // -----------------------------------------------------
-        // Função para calcular e atribuir o campo 'apl' (1, 1, 2, 2...)
-        // -----------------------------------------------------
-        function assignApplicationNumbers(data) {
-            let applicationCounter = 1;
-            let applicationIndex = 0;
-
-            for (let i = 0; i < data.length; i++) {
-                const item = data[i];
-
-                if (item.isExame) {
-                    item.apl = "EXAME";
-                } else {
-                    item.apl = applicationCounter; 
-                    applicationIndex++;
-
-                    if (applicationIndex % 2 === 0) {
-                        applicationCounter++;
-                    }
-                }
-            }
-            return data;
-        }
-
-        const updatedCronogramaData = assignApplicationNumbers(cronogramaData);
-        // -----------------------------------------------------
-
-        function getLabels(item) {
-            return item.apl === "EXAME" ? STATUS_EXA : STATUS_APL;
-        }
-
-        function loadSavedStatus() {
-            try {
-                const savedData = localStorage.getItem(STORAGE_KEY);
-                if (savedData) {
-                    const statusMap = JSON.parse(savedData);
-                    updatedCronogramaData.forEach(item => {
-                        const saved = statusMap[item.apl]; 
-                        if (saved) {
-                            item.status = saved.status || item.status;
-                            item.exame = saved.exame || item.exame; 
-                        }
-                    });
-                }
-            } catch (e) {
-                console.error("Erro ao carregar localStorage:", e);
-            }
-        }
-
-        function saveStatus() {
-            try {
-                const statusMap = {};
-                updatedCronogramaData.forEach(item => {
-                    statusMap[item.apl] = {
-                        status: item.status,
-                        exame: item.exame 
-                    };
-                });
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(statusMap));
-            } catch (e) {
-                console.error("Erro ao salvar localStorage:", e);
-            }
-        }
-
-        const tbody = document.getElementById('cronograma-body');
-
-        function renderTable() {
-            loadSavedStatus();
-            tbody.innerHTML = '';
-            
-            updatedCronogramaData.forEach(item => {
-                const row = tbody.insertRow();
+        table.addEventListener('click', (event) => {
+            if (event.target && event.target.classList.contains('status-cell')) {
+                const cell = event.target;
                 
-                const isExameRow = item.apl === "EXAME";
-                const isPositiveStatus = item.status.startsWith('✅');
+                // 1. Adiciona a classe de animação (para o efeito "crescer")
+                cell.classList.add('animating');
 
-                // 1. Aplica a classe padrão (laranja suave) para todas as linhas
-                // ou a classe de exame (laranja forte) se for um exame
-                if (isExameRow) {
-                    row.classList.add('exame-row-pendente'); // Laranja mais forte
-                } else {
-                    row.classList.add('default-row'); // Laranja suave
-                }
-                
-                // 2. A classe verde claro 'row-aplicada' é aplicada se o status for positivo
-                // Esta classe irá sobrescrever as cores laranja se presente
-                if (isPositiveStatus) {
-                    row.classList.add('row-aplicada');
-                } else {
-                    row.classList.remove('row-aplicada');
-                }
-
-
-                // Mapeia o item de dados para criar as células
-                DATA_KEYS.forEach(key => {
-                    if (key === 'status') return; 
-
-                    const cell = row.insertCell();
-                    let content = item[key];
-                    
-                    // Formata a coluna 'Semana'
-                    if (key === 'apl') {
-                        if (content === 'EXAME') {
-                            cell.textContent = content; 
-                        } else {
-                            cell.textContent = `Semana ${content}`; 
-                        }
-                    } else {
-                        cell.textContent = content;
+                // 2. Espera um momento (o suficiente para o CSS fazer o efeito de crescimento)
+                setTimeout(() => {
+                    // 3. Verifica e altera o status (isso desencadeia a transição de cor)
+                    if (cell.classList.contains('not-applied')) {
+                        cell.classList.remove('not-applied');
+                        cell.classList.add('applied');
+                        cell.textContent = 'Aplicado';
+                    } else if (cell.classList.contains('applied')) {
+                        cell.classList.remove('applied');
+                        cell.classList.add('not-applied');
+                        cell.textContent = 'Não Aplicado';
                     }
                     
-                    if (key === 'exame') {
-                        cell.classList.add('exame-cell');
-                    }
-                });
-
-                // CRIA A CÉLULA DE STATUS (BOTÃO)
-                const statusCellContainer = row.insertCell();
-                
-                const statusCell = document.createElement('div');
-                
-                statusCell.textContent = item.status;
-                statusCell.classList.add('status-cell');
-                
-                updateStatusClass(statusCell, item.status);
-
-                statusCell.onclick = () => {
-                    toggleStatus(item, statusCell, row); 
-                };
-                
-                statusCellContainer.appendChild(statusCell);
-            });
-        }
-
-        function updateStatusClass(cell, status) {
-            const isPositiveStatus = status.startsWith('✅');
-
-            cell.classList.toggle('aplicado', isPositiveStatus);
-            cell.classList.toggle('nao-aplicado', !isPositiveStatus);
-        }
-
-        function toggleStatus(item, cell, row) {
-            cell.classList.remove('status-pulse-active'); 
-            void cell.offsetWidth; 
-            
-            const labels = getLabels(item);
-            
-            // Alterna o status
-            if (item.status === labels.ON) {
-                item.status = labels.OFF; 
-            } else {
-                item.status = labels.ON; 
+                    // 4. Remove a classe de animação para voltar ao tamanho normal
+                    // A transição de 0.2s no CSS garante que a volta seja suave
+                    cell.classList.remove('animating');
+                }, 100); // 100 milissegundos é rápido o suficiente
             }
-            
-            cell.textContent = item.status;
-            updateStatusClass(cell, item.status);
-            
-            cell.classList.add('status-pulse-active'); 
-            
-            // Atualiza a classe da linha baseada no novo status
-            const isPositiveStatus = item.status.startsWith('✅');
-            row.classList.toggle('row-aplicada', isPositiveStatus);
-            
-            saveStatus(); 
-        }
-
-        renderTable();
-    </script>
-
+        });
+    });
+</script>
 </body>
 </html>
