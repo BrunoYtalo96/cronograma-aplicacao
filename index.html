@@ -5,33 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronograma</title>
 <style>
-    /* Estilos CSS com Tema Dark Moderno */
+    /* Estilos CSS com Background Estático e Tema Dark */
     :root {
-        --primary-color: #007bff;     /* Azul de destaque mantido */
-        --success-color: #28a745;     /* Verde para Aplicado */
-        --danger-color: #dc3545;      /* Vermelho para Não Aplicado */
+        --primary-color: #007bff;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
         
-        --bg-color: #1a1a1a;          /* Fundo principal escuro (quase preto) */
-        --card-bg: #2b2b2b;           /* Fundo do card/tabela (um pouco mais claro) */
-        --text-color: #f1f1f1;        /* Cor do texto claro */
-        --secondary-text-color: #aaaaaa; /* Cor do texto secundário */
-        --border-color: #444444;      /* Cor da borda/linha divisória */
+        --bg-color: #1a1a1a;
+        --card-bg: #2b2b2b;
+        --text-color: #f1f1f1;
+        --secondary-text-color: #aaaaaa;
+        --border-color: #444444;
     }
 
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 30px 15px;
-        background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
+        
+        /* NOVO: Background Estático */
+        background-color: #1a1a1a; /* Cor de fallback */
+        background-image: url('fundo1.jpg'); /* Troque pelo link da sua imagem */
+        background-size: cover; /* Garante que a imagem cubra toda a tela */
+        background-attachment: fixed; /* O segredo para o efeito estático */
+        background-position: center; /* Centraliza a imagem */
     }
 
+    /* O restante dos estilos de texto, cabeçalho e tabela permanecem os mesmos */
     h1 {
         color: var(--primary-color);
         text-align: center;
         margin-bottom: 5px;
         font-weight: 600;
+        /* Adiciona sombra para destaque no fundo */
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
     }
 
     p {
@@ -39,6 +48,7 @@
         margin-bottom: 30px;
         font-size: 0.95rem;
         color: var(--secondary-text-color);
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
     }
 
     table {
@@ -49,9 +59,9 @@
         border-spacing: 0;
         border-radius: 12px;
         overflow: hidden;
-        /* Sombra sutil que se destaca no fundo escuro */
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
-        background-color: var(--card-bg);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        /* Reduz a opacidade do fundo da tabela para que o background apareça levemente */
+        background-color: rgba(43, 43, 43, 0.95); 
         color: var(--text-color);
     }
 
@@ -71,59 +81,43 @@
         text-align: center;
     }
 
-    /* Cores alternadas para linhas */
     tbody tr:nth-child(even) {
-        background-color: #333333; /* Uma tonalidade um pouco mais escura */
+        background-color: rgba(51, 51, 51, 0.95);
     }
     
     tbody tr:hover {
-        background-color: #3a3a3a; /* Destaque ao passar o mouse */
+        background-color: #3a3a3a;
     }
 
-    /* Estilos de Status */
+    /* Estilos de Status (inalterados) */
     .status-cell {
         font-weight: 600;
         cursor: pointer;
         padding: 8px 10px;
         border-radius: 6px;
         user-select: none;
-        
-        /* Transição Suave (mantida) */
         transition: background-color 0.4s ease, transform 0.2s ease-out;
         transform: scale(1);
-        color: white; /* Garante que o texto de status seja sempre branco */
+        color: white;
     }
     
-    /* Efeito de clique (mantido) */
     .status-cell:active {
         transform: scale(0.95);
         opacity: 0.9;
     }
 
-    /* Animação ao mudar de estado (mantida) */
     .status-cell.animating {
         transform: scale(1.1);
         opacity: 0.7;
     }
 
-    .applied {
-        background-color: var(--success-color); 
-    }
-
-    .not-applied {
-        background-color: var(--danger-color);
-    }
+    .applied { background-color: var(--success-color); }
+    .not-applied { background-color: var(--danger-color); }
     
-    /* Responsividade Básica (mantida) */
+    /* Responsividade Básica (inalterada) */
     @media (max-width: 768px) {
-        table {
-            border-radius: 0;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-        th, td {
-            padding: 8px 5px;
-        }
+        table { border-radius: 0; width: 100%; font-size: 0.9rem; }
+        th, td { padding: 8px 5px; }
     }
 </style>
 </head>
