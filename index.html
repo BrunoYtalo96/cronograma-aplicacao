@@ -1,296 +1,211 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cronograma de Aplicações e Exames</title>
-    <link rel="icon" type="image/png" href="seringa.png">
-<style>
-    /* Estilos CSS com Background Estático e Tema Dark */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronograma de Aplicações e Exames</title>
+  <link rel="icon" type="image/png" href="seringa.png">
+  <style>
+    /* Tema Dark com Background Fixo */
     :root {
-        --primary-color: #007bff;
-        --success-color: #28a745;
-        --danger-color: #dc3545;
-        
-        --bg-color: #1a1a1a;
-        --card-bg: #2b2b2b;
-        --text-color: #f1f1f1;
-        --secondary-text-color: #aaaaaa;
-        --border-color: #444444;
+      --primary-color: #007bff;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --bg-color: #1a1a1a;
+      --card-bg: #2b2b2b;
+      --text-color: #f1f1f1;
+      --secondary-text-color: #aaaaaa;
+      --border-color: #444444;
     }
 
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 30px 15px;
-        color: var(--text-color);
-        line-height: 1.6;
-        
-        background-color: #1a1a1a;
-        background-image: url('fundo1.jpg');
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 30px 15px;
+      color: var(--text-color);
+      background-color: #1a1a1a;
+      background-image: url('fundo1.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      line-height: 1.6;
     }
 
-    /* O restante dos estilos de texto, cabeçalho e tabela permanecem os mesmos */
-    h1 {
-        color: var(--primary-color);
-        text-align: center;
-        margin-bottom: 5px;
-        font-weight: 600;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
+    h1, h2 {
+      text-align: center;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     }
 
-    h2 {
-        color: var(--text-color);
-        text-align: center;
-        margin-top: 40px;
-        margin-bottom: 15px;
-        font-weight: 500;
-        text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); 
-    }
-
-    p {
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 0.95rem;
-        color: var(--secondary-text-color);
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); 
-    }
+    h1 { color: var(--primary-color); margin-bottom: 5px; font-weight: 600; }
+    h2 { color: var(--text-color); margin-top: 40px; margin-bottom: 15px; font-weight: 500; }
+    p  { text-align: center; margin-bottom: 30px; color: var(--secondary-text-color); }
 
     table {
-        width: 100%;
-        max-width: 1000px;
-        margin: 0 auto;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        background-color: rgba(43, 43, 43, 0.95);
-        color: var(--text-color);
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: rgba(43, 43, 43, 0.95);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     }
 
     thead th {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 15px 10px;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        font-weight: 700;
-        border: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 10px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: none;
     }
 
     td {
-        padding: 12px 10px;
-        border-top: 1px solid var(--border-color);
-        text-align: center;
+      padding: 12px 10px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
     }
 
     tbody tr:nth-child(even) {
-        background-color: rgba(51, 51, 51, 0.95);
+      background-color: rgba(51, 51, 51, 0.95);
     }
-    
+
     tbody tr:hover {
-        background-color: #3a3a3a;
+      background-color: #3a3a3a;
     }
 
-    /* Estilos de Status (inalterados) */
     .status-cell {
-        font-weight: 600;
-        cursor: pointer;
-        padding: 8px 10px;
-        border-radius: 6px;
-        user-select: none;
-        transition: background-color 0.4s ease, transform 0.2s ease-out;
-        transform: scale(1);
-        color: white;
-    }
-    
-    .status-cell:active {
-        transform: scale(0.95);
-        opacity: 0.9;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 6px;
+      user-select: none;
+      transition: background-color 0.4s ease, transform 0.2s ease-out;
+      transform: scale(1);
+      color: white;
     }
 
-    .status-cell.animating {
-        transform: scale(1.1);
-        opacity: 0.7;
-    }
-
+    .status-cell:active { transform: scale(0.95); opacity: 0.9; }
+    .status-cell.animating { transform: scale(1.1); opacity: 0.7; }
     .applied { background-color: var(--success-color); }
     .not-applied { background-color: var(--danger-color); }
-    
-    /* Responsividade Básica (inalterada) */
+
     @media (max-width: 768px) {
-        table { border-radius: 0; width: 100%; font-size: 0.9rem; }
-        th, td { padding: 8px 5px; }
+      table { width: 100%; font-size: 0.9rem; }
+      th, td { padding: 8px 5px; }
     }
-</style>
+  </style>
 </head>
 <body>
 
-    <h1>Cronograma de Aplicações - 9 Semanas</h1>
-    <p>Clique nas células de status (vermelhas ou verdes) para registrar a aplicação.</p>
+  <h1>Cronograma de Aplicações - 9 Semanas</h1>
+  <p>Clique nas células de status (vermelhas ou verdes) para registrar o progresso.</p>
 
-    <table id="scheduleTable">
-        <thead>
-            <tr>
-                <th>Semana</th>
-                <th>Segunda-feira (125mg)</th>
-                <th>Status</th>
-                <th>Quinta-feira (125mg)</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>06 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>09 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>2</td><td>13 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>16 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>3</td><td>20 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>23 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>4</td><td>27 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>30 de Outubro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>5</td><td>03 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>06 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>6</td><td>10 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>13 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>7</td><td>17 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>20 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>8</td><td>24 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>27 de Novembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-            <tr><td>9</td><td>01 de Dezembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td><td>04 de Dezembro de 2025</td><td class="status-cell not-applied">Não Aplicado</td></tr>
-        </tbody>
-    </table>
+  <table id="scheduleTable">
+    <thead>
+      <tr>
+        <th>Semana</th>
+        <th>Segunda-feira (125mg)</th>
+        <th>Status</th>
+        <th>Quinta-feira (125mg)</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="scheduleBody"></tbody>
+  </table>
 
-    <h2>Acompanhamento de Exames</h2>
-    <table id="examTable">
-        <thead>
-            <tr>
-                <th>Tipo de exame</th>
-                <th>Data</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Testo Total</td>
-                <td>11 de novembro de 2025</td>
-                <td class="status-cell not-applied">Não Feito</td>
-            </tr>
-        </tbody>
-    </table>
+  <h2>Acompanhamento de Exames</h2>
+  <table id="examTable">
+    <thead>
+      <tr><th>Tipo de exame</th><th>Data</th><th>Status</th></tr>
+    </thead>
+    <tbody id="examBody"></tbody>
+  </table>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const scheduleTable = document.getElementById('scheduleTable');
-        const examTable = document.getElementById('examTable');
-        const allStatusCells = document.querySelectorAll('.status-cell');
-        
-        // Chaves para o localStorage
-        const STORAGE_KEY_APPLICATIONS = 'cronograma_aplicacoes_status';
-        const STORAGE_KEY_EXAMS = 'cronograma_exames_status';
+  <script>
+    const API_APLICACOES = "https://json-h24wunlqn-bruno-ytalos-projects.vercel.app";
+    const API_EXAMES = "https://json-h24wunlqn-bruno-ytalos-projects.vercel.app";
 
-        /**
-         * 1. SALVAR DADOS
-         * Coleta o status atual de todas as células e salva no localStorage.
-         */
-        const saveStatus = () => {
-            const appStatuses = [];
-            const examStatuses = [];
+    async function carregarTabelas() {
+      const [aplicacoesRes, examesRes] = await Promise.all([
+        fetch(API_APLICACOES),
+        fetch(API_EXAMES)
+      ]);
 
-            // Salva o status das aplicações
-            scheduleTable.querySelectorAll('.status-cell').forEach((cell, index) => {
-                appStatuses.push({
-                    index: index,
-                    isApplied: cell.classList.contains('applied')
-                });
-            });
+      const aplicacoes = await aplicacoesRes.json();
+      const exames = await examesRes.json();
 
-            // Salva o status dos exames
-            examTable.querySelectorAll('.status-cell').forEach((cell, index) => {
-                examStatuses.push({
-                    index: index,
-                    isApplied: cell.classList.contains('applied')
-                });
-            });
+      const scheduleBody = document.getElementById('scheduleBody');
+      const examBody = document.getElementById('examBody');
 
-            localStorage.setItem(STORAGE_KEY_APPLICATIONS, JSON.stringify(appStatuses));
-            localStorage.setItem(STORAGE_KEY_EXAMS, JSON.stringify(examStatuses));
-        };
+      scheduleBody.innerHTML = '';
+      examBody.innerHTML = '';
 
-        /**
-         * 2. CARREGAR DADOS
-         * Carrega os status do localStorage e aplica às células na inicialização.
-         */
-        const loadStatus = () => {
-            const loadedApp = JSON.parse(localStorage.getItem(STORAGE_KEY_APPLICATIONS));
-            const loadedExam = JSON.parse(localStorage.getItem(STORAGE_KEY_EXAMS));
+      // Monta tabela de aplicações
+      for (let i = 0; i < aplicacoes.length; i += 2) {
+        const row = document.createElement('tr');
+        const semana = aplicacoes[i].semana;
+        const seg = aplicacoes[i];
+        const qui = aplicacoes[i + 1];
 
-            const applyLoadedStatus = (loadedData, tableId) => {
-                const cells = document.getElementById(tableId).querySelectorAll('.status-cell');
-                
-                if (loadedData) {
-                    loadedData.forEach(data => {
-                        const cell = cells[data.index];
-                        if (!cell) return;
-                        
-                        // Determina se é a tabela de exames
-                        const isExamCell = tableId === 'examTable';
-                        
-                        if (data.isApplied) {
-                            cell.classList.remove('not-applied');
-                            cell.classList.add('applied');
-                            cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
-                        } else {
-                            cell.classList.remove('applied');
-                            cell.classList.add('not-applied');
-                            cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
-                        }
-                    });
-                }
-            };
-            
-            applyLoadedStatus(loadedApp, 'scheduleTable');
-            applyLoadedStatus(loadedExam, 'examTable');
-        };
+        row.innerHTML = `
+          <td>${semana}</td>
+          <td>${seg.dia}</td>
+          <td class="status-cell ${seg.status === 'aplicado' ? 'applied' : 'not-applied'}" data-id="${seg.id}" data-type="aplicacao">
+            ${seg.status === 'aplicado' ? 'Aplicado' : 'Não Aplicado'}
+          </td>
+          <td>${qui.dia}</td>
+          <td class="status-cell ${qui.status === 'aplicado' ? 'applied' : 'not-applied'}" data-id="${qui.id}" data-type="aplicacao">
+            ${qui.status === 'aplicado' ? 'Aplicado' : 'Não Aplicado'}
+          </td>
+        `;
+        scheduleBody.appendChild(row);
+      }
 
-        /**
-         * 3. FUNÇÃO DE TOGGLE (com persistência)
-         * Manipula o clique, a animação E salva o novo status.
-         */
-        const handleStatusToggle = (event) => {
-            if (event.target && event.target.classList.contains('status-cell')) {
-                const cell = event.target;
-                
-                // Verifica se a célula está na tabela de Exames
-                const isExamCell = cell.closest('#examTable');
-                
-                cell.classList.add('animating');
+      // Monta tabela de exames
+      exames.forEach(exame => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${exame.tipo}</td>
+          <td>${exame.data}</td>
+          <td class="status-cell ${exame.status === 'feito' ? 'applied' : 'not-applied'}" data-id="${exame.id}" data-type="exame">
+            ${exame.status === 'feito' ? 'Feito' : 'Não Feito'}
+          </td>
+        `;
+        examBody.appendChild(row);
+      });
 
-                setTimeout(() => {
-                    // Alterna o status (mantendo as classes CSS de cor)
-                    if (cell.classList.contains('not-applied')) {
-                        cell.classList.remove('not-applied');
-                        cell.classList.add('applied');
-                        cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
-                        
-                    } else if (cell.classList.contains('applied')) {
-                        cell.classList.remove('applied');
-                        cell.classList.add('not-applied');
-                        cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
-                    }
-                    
-                    cell.classList.remove('animating');
-                    
-                    // NOVO: Chama a função de salvar após a alteração
-                    saveStatus();
-                    
-                }, 100);
-            }
-        };
+      adicionarEventos();
+    }
 
-        // 4. Inicialização: Carrega os dados salvos e configura os listeners
-        loadStatus();
-        
-        allStatusCells.forEach(cell => {
-            cell.addEventListener('click', handleStatusToggle);
+    function adicionarEventos() {
+      document.querySelectorAll('.status-cell').forEach(cell => {
+        cell.addEventListener('click', async () => {
+          const id = cell.getAttribute('data-id');
+          const tipo = cell.getAttribute('data-type');
+          const isAplicado = cell.classList.contains('applied');
+          const novoStatus = isAplicado ? (tipo === 'exame' ? 'não feito' : 'não aplicado') : (tipo === 'exame' ? 'feito' : 'aplicado');
+
+          cell.classList.toggle('applied');
+          cell.classList.toggle('not-applied');
+          cell.textContent = tipo === 'exame'
+            ? (novoStatus === 'feito' ? 'Feito' : 'Não Feito')
+            : (novoStatus === 'aplicado' ? 'Aplicado' : 'Não Aplicado');
+
+          const endpoint = tipo === 'exame' ? API_EXAMES : API_APLICACOES;
+
+          await fetch(`${endpoint}/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: novoStatus })
+          });
         });
+      });
+    }
 
-    });
-</script>
+    carregarTabelas();
+  </script>
 </body>
 </html>
