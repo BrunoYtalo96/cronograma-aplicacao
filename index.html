@@ -187,92 +187,114 @@
         // Chaves para o localStorage
         const STORAGE_KEY_APPLICATIONS = 'cronograma_aplicacoes_status';
         const STORAGE_KEY_EXAMS = 'cronograma_exames_status';
-</script>
 
-<script>
-    
-    // O NOVO saveStatus usa o método .set() do Firebase para enviar os dados
-const saveStatus = () => {
-    const appStatuses = [];
-    const examStatuses = [];
+        /**
+         * 1. SALVAR DADOS
+         * Coleta o status atual de todas as células e salva no localStorage.
+         */
+        const saveStatus = () => {
+            const appStatuses = [];
+            const examStatuses = [];
 
-    // Coleta o status das aplicações
-    scheduleTable.querySelectorAll('.status-cell').forEach((cell, index) => {
-        appStatuses.push({
-            index: index,
-            isApplied: cell.classList.contains('applied')
-        });
-    });
+            // Salva o status das aplicações
+            scheduleTable.querySelectorAll('.status-cell').forEach((cell, index) => {
+                appStatuses.push({
+                    index: index,
+                    isApplied: cell.classList.contains('applied')
+                });
+            });
 
-    // Coleta o status dos exames
-    examTable.querySelectorAll('.status-cell').forEach((cell, index) => {
-        examStatuses.push({
-            index: index,
-            isApplied: cell.classList.contains('applied')
-        });
-    });
+            // Salva o status dos exames
+            examTable.querySelectorAll('.status-cell').forEach((cell, index) => {
+                examStatuses.push({
+                    index: index,
+                    isApplied: cell.classList.contains('applied')
+                });
+            });
 
-    // Objeto consolidado para o banco de dados
-    const dataToSave = {
-        applications: appStatuses,
-        exams: examStatuses
-    };
+            localStorage.setItem(STORAGE_KEY_APPLICATIONS, JSON.stringify(appStatuses));
+            localStorage.setItem(STORAGE_KEY_EXAMS, JSON.stringify(examStatuses));
+        };
 
-    // ⚠️ Salva os dados no Firebase no caminho users/meu_cronograma_pessoal/schedule
-    database.ref(DB_PATH).set(dataToSave)
-        .then(() => {
-            console.log("Status salvo no Firebase com sucesso!");
-        })
-        .catch((error) => {
-            console.error("Erro ao salvar dados no Firebase:", error);
-        });
-};
+        /**
+         * 2. CARREGAR DADOS
+         * Carrega os status do localStorage e aplica às células na inicialização.
+         */
+        const loadStatus = () => {
+            const loadedApp = JSON.parse(localStorage.getItem(STORAGE_KEY_APPLICATIONS));
+            const loadedExam = JSON.parse(localStorage.getItem(STORAGE_KEY_EXAMS));
 
-// O NOVO loadStatus é um listener de sincronização em tempo real
-const loadAndSyncStatus = () => {
-    const applyLoadedStatus = (loadedData, tableId) => {
-        const cells = document.getElementById(tableId).querySelectorAll('.status-cell');
-        
-        if (!loadedData) return; // Se não houver dados no banco, não faz nada
-        
-        loadedData.forEach(data => {
-            const cell = cells[data.index];
-            if (!cell) return;
+            const applyLoadedStatus = (loadedData, tableId) => {
+                const cells = document.getElementById(tableId).querySelectorAll('.status-cell');
+                
+                if (loadedData) {
+                    loadedData.forEach(data => {
+                        const cell = cells[data.index];
+                        if (!cell) return;
+                        
+                        // Determina se é a tabela de exames para o texto correto
+                        const isExamCell = tableId === 'examTable';
+                        
+                        if (data.isApplied) {
+                            cell.classList.remove('not-applied');
+                            cell.classList.add('applied');
+                            cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
+                        } else {
+                            cell.classList.remove('applied');
+                            cell.classList.add('not-applied');
+                            cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
+                        }
+                    });
+                }
+            };
             
-            const isExamCell = tableId === 'examTable';
-            
-            // Aplica as classes e textos com base no dado do Firebase
-            if (data.isApplied) {
-                cell.classList.remove('not-applied');
-                cell.classList.add('applied');
-                cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
-            } else {
-                cell.classList.remove('applied');
-                cell.classList.add('not-applied');
-                cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
+            applyLoadedStatus(loadedApp, 'scheduleTable');
+            applyLoadedStatus(loadedExam, 'examTable');
+        };
+
+        /**
+         * 3. FUNÇÃO DE TOGGLE (com persistência)
+         * Manipula o clique, a animação E salva o novo status.
+         */
+        const handleStatusToggle = (event) => {
+            if (event.target && event.target.classList.contains('status-cell')) {
+                const cell = event.target;
+                
+                // Verifica se a célula está na tabela de Exames
+                const isExamCell = cell.closest('#examTable');
+                
+                cell.classList.add('animating');
+
+                setTimeout(() => {
+                    // Alterna o status (mantendo as classes CSS de cor)
+                    if (cell.classList.contains('not-applied')) {
+                        cell.classList.remove('not-applied');
+                        cell.classList.add('applied');
+                        cell.textContent = isExamCell ? 'Feito' : 'Aplicado';
+                        
+                    } else if (cell.classList.contains('applied')) {
+                        cell.classList.remove('applied');
+                        cell.classList.add('not-applied');
+                        cell.textContent = isExamCell ? 'Não Feito' : 'Não Aplicado';
+                    }
+                    
+                    cell.classList.remove('animating');
+                    
+                    // Chama a função de salvar após a alteração
+                    saveStatus();
+                    
+                }, 100);
             }
+        };
+
+        // 4. Inicialização: Carrega os dados salvos e configura os listeners
+        loadStatus();
+        
+        allStatusCells.forEach(cell => {
+            cell.addEventListener('click', handleStatusToggle);
         });
-    };
 
-    // Configura o listener do Firebase para o seu caminho
-    database.ref(DB_PATH).on('value', (snapshot) => {
-        const data = snapshot.val(); // Pega o objeto de dados
-
-        if (data) {
-            // Aplica os status das Aplicações
-            applyLoadedStatus(data.applications, 'scheduleTable');
-            // Aplica os status dos Exames
-            applyLoadedStatus(data.exams, 'examTable');
-            console.log("Dados sincronizados com o Firebase.");
-        } else {
-            console.log("Nenhum dado encontrado no Firebase, usando status inicial.");
-        }
     });
-};
-
-
-// 4. Inicialização: Chama a nova função de sincronização em tempo real
-loadAndSyncStatus();
 </script>
 </body>
 </html>
